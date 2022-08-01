@@ -1,0 +1,61 @@
+PlayerDrop:
+  Info:
+    enable: true
+    message: "玩家 %player_name% 死在了 {location}"
+    location: "x:{x}y:{y}z:{z}world:{world} %player_name%"
+  DeathRule:
+    #玩家死亡规则
+    #掉落全部ALL
+    #掉落部分Some
+    #不掉落 ↓enable: false
+    enable: true
+    #掉落数量(保留比率)
+    #0.5 = 50% 0.9 = 90%
+    amount: 0.5
+    type: "ALL"
+    lock:
+      enable: true
+      lore: "人的掉落物"
+      error: "需要洛阳铲！"
+    nodrop: "已绑定给"
+  DropRule:
+    #掉落物规则
+    enable: false
+    #掉落全部物品 ↑enable: false
+    #清除比例
+    #50%的物品会随机消失
+    amount: 0.5
+MobDrop:
+  SHEEP:
+    drop:
+      #mm物品ID <amount> <chance>
+      - "MM物品 1 0.5"
+    lock:
+      enable: true
+      lore: "羊的掉落物"
+      error: "需要解牛刀？"
+#MMDrop:
+#在mm的mob配置里
+#Heritage:
+#    enable: true
+#    lock:
+#      enable: true
+#      lore: "羊的掉落物"
+#      error: "需要解牛刀？"
+Heritage:
+  #不推荐修改
+  type: ARMOR_STAND
+  #name：玩家名
+  #type：生物类型 玩家为 Player
+  #如果开启dead则不会替换
+  name: "{name}{type}墓碑"
+  #dead 替换为死亡生物？
+  #不推荐开启
+  dead: false
+  time: 60 #单位s
+  info:
+    - "&f{name}"
+    - "&7墓碑消息"
+    - "&8({lastTime})"
+OpenWorld:
+  - "World"
