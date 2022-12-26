@@ -17,7 +17,8 @@ PlayerDrop:
       enable: true
       lore: "人的掉落物"
       error: "需要洛阳铲！"
-    nodrop: "已绑定给"
+    nodrop:
+      - "已绑定给"
   DropRule:
     #掉落物规则
     enable: false

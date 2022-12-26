@@ -63,10 +63,7 @@ object HeritageAPI {
     fun mobCreate(event: MythicMobDeathEvent) {
         datas.add(
             HeritageData(
-                event.mob.entity.bukkitEntity,
-                getHeritage(event),
-                System.currentTimeMillis() + Config.Heritage.time * 1000,
-                event.drops.toMutableList()
+                event.mob.entity.bukkitEntity, getHeritage(event), System.currentTimeMillis() + Config.Heritage.time * 1000, event.drops.toMutableList()
             )
         )
         event.drops.clear()
@@ -75,17 +72,14 @@ object HeritageAPI {
     fun createPlayer(target: Player, event: EntityDeathEvent) {
         val type = Config.PlayerDrop.DeathRule.type
         val notDrop = event.drops.filter {
-            it != null && it.isNotAir() && it.hasItemMeta() && it.hasLore(Config.PlayerDrop.DeathRule.nodrop)
+            it != null && it.isNotAir() && it.hasItemMeta() && Config.PlayerDrop.DeathRule.nodrop.any { lore -> it.hasLore(lore) }
         }.toMutableList()
         event.drops.removeAll(notDrop)
         when (type) {
             Config.PlayerDrop.DeathRule.Type.ALL -> {
                 datas.add(
                     HeritageData(
-                        target,
-                        getHeritage(event),
-                        System.currentTimeMillis() + Config.Heritage.time * 1000,
-                        event.drops.toMutableList()
+                        target, getHeritage(event), System.currentTimeMillis() + Config.Heritage.time * 1000, event.drops.toMutableList()
                     )
                 )
                 event.drops.clear()
@@ -108,10 +102,7 @@ object HeritageAPI {
                 event.drops.clear()
                 datas.add(
                     HeritageData(
-                        target,
-                        getHeritage(event),
-                        System.currentTimeMillis() + Config.Heritage.time * 1000,
-                        gets
+                        target, getHeritage(event), System.currentTimeMillis() + Config.Heritage.time * 1000, gets
                     )
                 )
             }
@@ -138,10 +129,7 @@ object HeritageAPI {
         }
         datas.add(
             HeritageData(
-                entity,
-                getHeritage(event),
-                System.currentTimeMillis() + Config.Heritage.time * 1000,
-                event.drops.toMutableList()
+                entity, getHeritage(event), System.currentTimeMillis() + Config.Heritage.time * 1000, event.drops.toMutableList()
             )
         )
         event.drops.clear()

@@ -58,8 +58,8 @@ object Config {
                 Type.valueOf(config.getString("PlayerDrop.DeathRule.type", "ALL")!!)
             }
 
-            val nodrop: String by lazy {
-                config.getString("PlayerDrop.DeathRule.nodrop", "null")?.colored()!!
+            val nodrop: List<String> by lazy {
+                config.getStringList("PlayerDrop.DeathRule.nodrop").colored()
             }
 
             val lock: Boolean by lazy {
@@ -70,7 +70,7 @@ object Config {
                 config.getString("PlayerDrop.DeathRule.lock.lore", "!!ERROR!!")!!
             }
 
-            val lockMessage:  String by lazy {
+            val lockMessage: String by lazy {
                 config.getString("PlayerDrop.DeathRule.lock.error", "缺少道具")!!
             }
 
@@ -120,7 +120,7 @@ object Config {
             val drops: List<String>,
             val lock: Boolean,
             val lockInfo: String,
-            val error: String
+            val error: String,
         )
 
     }
