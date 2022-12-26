@@ -15,7 +15,7 @@ taboolib {
     install("module-nms-util")
     install("platform-bukkit")
     classifier = null
-    version = "6.0.9-46"
+    version = "6.0.9-72"
 }
 
 repositories {
@@ -25,7 +25,7 @@ repositories {
 dependencies {
     compileOnly("ink.ptms:nms-all:1.0.0")
     compileOnly("ink.ptms.core:v11200:11200-minimize")
-    taboo("ink.ptms:um:1.0.0-beta-14")
+    taboo("ink.ptms:um:1.0.0-beta-18")
     compileOnly(kotlin("stdlib"))
     compileOnly(fileTree("libs"))
 }

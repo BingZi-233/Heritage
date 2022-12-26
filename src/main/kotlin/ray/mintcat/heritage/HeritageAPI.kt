@@ -5,8 +5,9 @@ import ink.ptms.adyeshach.common.entity.EntityInstance
 import ink.ptms.adyeshach.common.entity.EntityTypes
 import ink.ptms.adyeshach.common.entity.type.AdyArmorStand
 import ink.ptms.adyeshach.common.entity.type.AdyEntityLiving
-import ink.ptms.um.Mob
 import ink.ptms.um.Mythic
+import io.lumine.xikage.mythicmobs.MythicMobs
+import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent
 import org.bukkit.Bukkit
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
@@ -14,9 +15,9 @@ import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.submit
-import taboolib.platform.util.giveItem
 import taboolib.common.util.random
 import taboolib.common5.Coerce
+import taboolib.platform.util.giveItem
 import taboolib.platform.util.hasLore
 import taboolib.platform.util.isNotAir
 
@@ -52,12 +53,23 @@ object HeritageAPI {
             }
             return
         }
-        val mythic = Mythic.API.getMob(entity)
-        if (mythic != null) {
-            createMythicMob(mythic, event)
+        if (MythicMobs.inst().mobManager.getMythicMobInstance(entity) != null) {
             return
         }
         createMinecraft(entity, event)
+    }
+
+    @SubscribeEvent
+    fun mobCreate(event: MythicMobDeathEvent) {
+        datas.add(
+            HeritageData(
+                event.mob.entity.bukkitEntity,
+                getHeritage(event),
+                System.currentTimeMillis() + Config.Heritage.time * 1000,
+                event.drops.toMutableList()
+            )
+        )
+        event.drops.clear()
     }
 
     fun createPlayer(target: Player, event: EntityDeathEvent) {
@@ -112,18 +124,6 @@ object HeritageAPI {
         }
     }
 
-    fun createMythicMob(target: Mob, event: EntityDeathEvent) {
-        datas.add(
-            HeritageData(
-                target.entity,
-                getHeritage(event),
-                System.currentTimeMillis() + Config.Heritage.time * 1000,
-                event.drops.toMutableList()
-            )
-        )
-        event.drops.clear()
-    }
-
     fun createMinecraft(entity: Entity, event: EntityDeathEvent) {
         val drop = Config.MobDrop.list[entity.type] ?: return
         drop.drops.forEach {
@@ -148,6 +148,22 @@ object HeritageAPI {
     }
 
     fun getHeritage(event: EntityDeathEvent): EntityInstance {
+        val type = if (Config.Heritage.dead) {
+            EntityTypes.valueOf(event.entity.type.name)
+        } else {
+            Config.Heritage.type
+        }
+        val npc = AdyeshachAPI.getEntityManagerPublicTemporary().create(type, event.entity.location).apply {
+            if (this !is AdyArmorStand) {
+                val tos = this as? AdyEntityLiving
+                tos?.die(true)
+                setCustomNameVisible(false)
+            }
+        }
+        return npc
+    }
+
+    fun getHeritage(event: MythicMobDeathEvent): EntityInstance {
         val type = if (Config.Heritage.dead) {
             EntityTypes.valueOf(event.entity.type.name)
         } else {

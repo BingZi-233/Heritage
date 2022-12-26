@@ -4,8 +4,7 @@ import ink.ptms.adyeshach.api.AdyeshachAPI
 import ink.ptms.adyeshach.api.Hologram
 import ink.ptms.adyeshach.common.entity.EntityInstance
 import ink.ptms.adyeshach.common.entity.type.AdyArmorStand
-import ink.ptms.adyeshach.common.entity.type.AdyEntityLiving
-import ink.ptms.um.Mythic
+import io.lumine.xikage.mythicmobs.MythicMobs
 import org.bukkit.Bukkit
 import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
@@ -16,7 +15,7 @@ import ray.mintcat.heritage.Config.Heritage.getChineseName
 import taboolib.module.chat.colored
 import taboolib.platform.util.hasLore
 import taboolib.platform.util.isAir
-import java.util.UUID
+import java.util.*
 
 class HeritageData(
     val entity: Entity,
@@ -42,15 +41,16 @@ class HeritageData(
                 player.inventory.itemInMainHand.amount = player.inventory.itemInMainHand.amount - 1
             }
             return true
-        } else if (Mythic.API.getMob(entity) != null) {
-            val mob = Mythic.API.getMob(entity)!!
-            if (mob.config.getBoolean("Heritage.lock.enable")) {
-                val lore = mob.config.getString("Heritage.lock.lore")
+        } else if (MythicMobs.inst().mobManager.getMythicMobInstance(entity) != null) {
+            val mob = MythicMobs.inst().mobManager.getMythicMobInstance(entity) ?: return false
+            if (mob.type.config.getBoolean("Heritage.lock.enable")) {
+                val lore = mob.type.config.getString("Heritage.lock.lore")
                 if (!item.hasLore(lore)) {
-                    player.sendMessage(mob.config.getString("Heritage.lock.error", "缺少道具").colored())
+                    player.sendMessage(mob.type.config.getString("Heritage.lock.error", "缺少道具").colored())
                     return false
                 }
                 player.inventory.itemInMainHand.amount = player.inventory.itemInMainHand.amount - 1
+                return true
             }
             return true
         } else {

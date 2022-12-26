@@ -1,16 +1,14 @@
 package ray.mintcat.heritage
 
 import ink.ptms.adyeshach.common.entity.EntityTypes
-import org.bukkit.Location
 import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
-import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.module.chat.colored
 import taboolib.module.configuration.Config
-import taboolib.module.configuration.Configuration
+import taboolib.module.configuration.ConfigFile
 import taboolib.module.configuration.util.getStringColored
 import taboolib.module.configuration.util.getStringListColored
 import taboolib.module.nms.getI18nName
@@ -18,8 +16,8 @@ import taboolib.platform.compat.replacePlaceholder
 
 object Config {
 
-    @Config(value = "setting.yml", autoReload = true)
-    lateinit var config: Configuration
+    @Config(value = "setting.yml")
+    lateinit var config: ConfigFile
         private set
 
     object PlayerDrop {
