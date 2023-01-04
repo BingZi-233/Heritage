@@ -26,6 +26,11 @@ PlayerDrop:
     #清除比例
     #50%的物品会随机消失
     amount: 0.5
+  # 【New】延时打开时间
+  delay: 0
+  # 【New】命令，kether模式。kether网站：https://kether.tabooproject.org
+  command:
+    - ""
 MobDrop:
   SHEEP:
     drop:
@@ -35,6 +40,11 @@ MobDrop:
       enable: true
       lore: "羊的掉落物"
       error: "需要解牛刀？"
+    # 【New】命令，kether模式。kether网站：https://kether.tabooproject.org
+    command:
+      - ""
+    # 【New】延时打开时间
+    delay: 0
 #MMDrop:
 #在mm的mob配置里
 #Heritage:

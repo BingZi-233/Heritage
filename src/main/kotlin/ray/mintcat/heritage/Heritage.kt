@@ -10,7 +10,7 @@ object Heritage : Plugin() {
 
     override fun onEnable() {
         command("heritage") {
-            execute<CommandSender> { sender, context, argument ->
+            execute<CommandSender> { sender, _, _ ->
                 Config.config.reload()
                 sender.sendMessage("重载完成")
             }

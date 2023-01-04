@@ -74,6 +74,13 @@ object Config {
                 config.getString("PlayerDrop.DeathRule.lock.error", "缺少道具")!!
             }
 
+            val delay: Long by lazy {
+                config.getLong("PlayerDrop.delay", 0)
+            }
+            val command: List<String> by lazy {
+                config.getStringList("PlayerDrop.command")
+            }
+
 
             enum class Type {
                 ALL, SOME
@@ -110,7 +117,9 @@ object Config {
                     config.getStringList("MobDrop.${it}.drop"),
                     config.getBoolean("MobDrop.${it}.lock.enable"),
                     config.getString("MobDrop.${it}.lock.lore", "null")!!,
-                    config.getString("MobDrop.${it}.lock.error", "缺少道具")!!
+                    config.getString("MobDrop.${it}.lock.error", "缺少道具")!!,
+                    config.getStringList("MobDrop.${it}.command"),
+                    config.getLong("MobDrop.${it}.delay", 0)
                 )
             }
         }
@@ -121,6 +130,8 @@ object Config {
             val lock: Boolean,
             val lockInfo: String,
             val error: String,
+            val command: List<String>,
+            val delay: Long,
         )
 
     }
@@ -165,6 +176,9 @@ object Config {
             }
             if (customName != null) {
                 return customName
+            }
+            if (this.name != null) {
+                return this.name
             }
             return getI18nName()
         }
