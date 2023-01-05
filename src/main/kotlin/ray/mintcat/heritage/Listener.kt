@@ -1,6 +1,7 @@
 package ray.mintcat.heritage
 
 import ink.ptms.adyeshach.api.event.AdyeshachEntityInteractEvent
+import io.lumine.xikage.mythicmobs.MythicMobs
 import org.bukkit.entity.EntityType
 import org.bukkit.event.inventory.InventoryCloseEvent
 import ray.mintcat.heritage.Config.PlayerDrop.DeathRule
@@ -39,6 +40,12 @@ object Listener {
             delay = DeathRule.delay
             // 执行语句
             DeathRule.command.ketherEval(event.player)
+        } else if (MythicMobs.inst().mobManager.getMythicMobInstance(data.entity) != null) {
+            val mob = MythicMobs.inst().mobManager.getMythicMobInstance(data.entity)!!
+            if (mob.type.config.getBoolean("Heritage.lock.enable")) {
+                delay = mob.type.config.getInteger("Heritage.delay").toLong()
+                mob.type.config.getStringList("Heritage.command").ketherEval(event.player)
+            }
         } else {
             Config.MobDrop.list[data.entity.type]?.let {
                 // 设置延时时间为怪物配置

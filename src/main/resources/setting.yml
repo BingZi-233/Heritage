@@ -53,6 +53,11 @@ MobDrop:
 #      enable: true
 #      lore: "羊的掉落物"
 #      error: "需要解牛刀？"
+#    #【New】命令，kether模式。kether网站：https://kether.tabooproject.org
+#    command:
+#      - ""
+#    #【New】延时打开时间
+#    delay: 0
 Heritage:
   #不推荐修改
   type: ARMOR_STAND
