@@ -31,6 +31,9 @@ PlayerDrop:
   # 【New】命令，kether模式。kether网站：https://kether.tabooproject.org
   command:
     - ""
+  # 【New】死亡命令，kether模式。kether网站：https://kether.tabooproject.org
+  deathCommand:
+    - ""
 MobDrop:
   SHEEP:
     drop:
@@ -45,6 +48,9 @@ MobDrop:
       - ""
     # 【New】延时打开时间
     delay: 0
+    # 【New】死亡命令，kether模式。kether网站：https://kether.tabooproject.org
+    deathCommand:
+      - ""
 #MMDrop:
 #在mm的mob配置里
 #Heritage:

@@ -29,17 +29,13 @@ object Config {
 
             val message: Player.() -> String = {
                 val get = config.getStringColored("PlayerDrop.Info.message")!!
-                get.replacePlaceholder(this)
-                    .replace("{location}", location(this))
+                get.replacePlaceholder(this).replace("{location}", location(this))
             }
 
             val location: Player.() -> String = {
                 val str = config.getString("PlayerDrop.Info.location")!!
-                str.replace("{x}", location.x.toInt().toString())
-                    .replace("{y}", location.y.toInt().toString())
-                    .replace("{z}", location.z.toInt().toString())
-                    .replace("{world}", location.world?.name?.toString() ?: "world")
-                    .replacePlaceholder(this)
+                str.replace("{x}", location.x.toInt().toString()).replace("{y}", location.y.toInt().toString()).replace("{z}", location.z.toInt().toString())
+                    .replace("{world}", location.world?.name?.toString() ?: "world").replacePlaceholder(this)
             }
 
         }
@@ -55,7 +51,7 @@ object Config {
             }
 
             val type: Type by lazy {
-                Type.valueOf(config.getString("PlayerDrop.DeathRule.type", "ALL")!!)
+                Type.valueOf(config.getString("PlayerDrop.DeathRule.type", "ALL")!!.uppercase())
             }
 
             val nodrop: List<String> by lazy {
@@ -80,7 +76,6 @@ object Config {
             val command: List<String> by lazy {
                 config.getStringList("PlayerDrop.command")
             }
-
 
             enum class Type {
                 ALL, SOME
@@ -119,7 +114,7 @@ object Config {
                     config.getString("MobDrop.${it}.lock.lore", "null")!!,
                     config.getString("MobDrop.${it}.lock.error", "缺少道具")!!,
                     config.getStringList("MobDrop.${it}.command"),
-                    config.getLong("MobDrop.${it}.delay", 0)
+                    config.getLong("MobDrop.${it}.delay", 0),
                 )
             }
         }
@@ -148,9 +143,7 @@ object Config {
 
         val name: HeritageData.() -> String = {
             val get = config.getString("Heritage.name", "墓碑")!!
-            get.replace("{name}", entity.getChineseName())
-                .replace("{type}", type.name)
-                .replace("{lastTime}", Time(lastTime()).toString())
+            get.replace("{name}", entity.getChineseName()).replace("{type}", type.name).replace("{lastTime}", Time(lastTime()).toString())
         }
 
         val dead: Boolean by lazy {
@@ -160,9 +153,7 @@ object Config {
         val info: HeritageData.() -> List<String> = {
             val get = config.getStringListColored("Heritage.info")
             get.asSequence().map {
-                it.replace("{name}", entity.getChineseName())
-                    .replace("{type}", type.name)
-                    .replace("{lastTime}", Time(lastTime()).toString())
+                it.replace("{name}", entity.getChineseName()).replace("{type}", type.name).replace("{lastTime}", Time(lastTime()).toString())
             }.toList()
         }
 

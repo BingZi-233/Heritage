@@ -26,12 +26,38 @@ object HeritageAPI {
     val datas = ArrayList<HeritageData>()
 
     @SubscribeEvent
-    fun onEntityDeathEvent(event: EntityDeathEvent) {
-        val entity: Entity = event.entity
+    fun onEntityDeath(event: EntityDeathEvent) {
+        val entity = event.entity
         val world = entity.world ?: return
         if (!Config.OpenWorld.list.contains(world.name)) {
             return
         }
+        when {
+            // 玩家
+            entity is Player -> {
+                Config.config.getStringList("PlayerDrop.deathCommand").ketherEval(entity)
+            }
+            // MM怪物
+            MythicMobs.inst().mobManager.getMythicMobInstance(entity) != null -> {
+                val mythicMobInstance = MythicMobs.inst().mobManager.getMythicMobInstance(entity)!!
+                mythicMobInstance.type.config.getStringList("Heritage.deathCommand").ketherEval(entity)
+            }
+            // 动物
+            else -> {
+                Config.config.getStringList("MobDrop.${entity.type}.deathCommand").ketherEval(entity)
+            }
+        }
+    }
+
+    @SubscribeEvent
+    fun onEntityDeathEvent(event: EntityDeathEvent) {
+        val entity: Entity = event.entity
+        val world = entity.world ?: return
+        // 不在启用世界，则停止
+        if (!Config.OpenWorld.list.contains(world.name)) {
+            return
+        }
+        // 如果是玩家
         if (entity is Player) {
             if (Config.PlayerDrop.Info.enabled) {
                 Bukkit.getOnlinePlayers().forEach {
@@ -53,6 +79,7 @@ object HeritageAPI {
             }
             return
         }
+        // 如果不是MM则停止
         if (MythicMobs.inst().mobManager.getMythicMobInstance(entity) != null) {
             return
         }
@@ -113,6 +140,7 @@ object HeritageAPI {
                 target.giveItem(notDrop)
             }
         }
+
     }
 
     fun createMinecraft(entity: Entity, event: EntityDeathEvent) {
