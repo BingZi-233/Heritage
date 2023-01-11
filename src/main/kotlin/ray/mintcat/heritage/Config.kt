@@ -1,6 +1,7 @@
 package ray.mintcat.heritage
 
 import ink.ptms.adyeshach.common.entity.EntityTypes
+import io.lumine.xikage.mythicmobs.MythicMobs
 import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
@@ -170,6 +171,10 @@ object Config {
             }
             if (this.name != null) {
                 return this.name
+            }
+            if (MythicMobs.inst().mobManager.getMythicMobInstance(this) != null) {
+                val mythicMobInstance = MythicMobs.inst().mobManager.getMythicMobInstance(this)!!
+                return mythicMobInstance.type.config.getColorString("Display")
             }
             return getI18nName()
         }
