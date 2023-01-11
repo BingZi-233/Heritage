@@ -166,15 +166,15 @@ object Config {
             if (this is Player) {
                 return this.name
             }
+            if (MythicMobs.inst().mobManager.getMythicMobInstance(this) != null) {
+                val mythicMobInstance = MythicMobs.inst().mobManager.getMythicMobInstance(this)!!
+                return mythicMobInstance.type.config.getColorString("Display")
+            }
             if (customName != null) {
                 return customName
             }
             if (this.name != null) {
                 return this.name
-            }
-            if (MythicMobs.inst().mobManager.getMythicMobInstance(this) != null) {
-                val mythicMobInstance = MythicMobs.inst().mobManager.getMythicMobInstance(this)!!
-                return mythicMobInstance.type.config.getColorString("Display")
             }
             return getI18nName()
         }
