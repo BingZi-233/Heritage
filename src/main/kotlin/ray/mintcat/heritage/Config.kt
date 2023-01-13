@@ -152,7 +152,11 @@ object Config {
         }
 
         val info: HeritageData.() -> List<String> = {
-            val get = config.getStringListColored("Heritage.info")
+            val get: List<String> = if (this.entity.type == EntityType.PLAYER) {
+                config.getStringListColored("Heritage.playerInfo")
+            } else {
+                config.getStringListColored("Heritage.info")
+            }
             get.asSequence().map {
                 it.replace("{name}", entity.getChineseName()).replace("{type}", type.name).replace("{lastTime}", Time(lastTime()).toString())
             }.toList()

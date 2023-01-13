@@ -75,6 +75,11 @@ Heritage:
   #不推荐开启
   dead: false
   time: 60 #单位s
+  # 【New】玩家描述信息
+  playerInfo:
+    - "&f{name}"
+    - "&7墓碑消息"
+    - "&8({lastTime})"
   info:
     - "&f{name}"
     - "&7墓碑消息"
